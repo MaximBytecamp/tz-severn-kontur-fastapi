@@ -1,9 +1,12 @@
 from datetime import datetime, timezone 
+from turtle import back
 from typing import Optional, TYPE_CHECKING
 from enum import Enum 
 
 
 from sqlmodel import SQLModel, Field, Relationship
+
+from app.models import project_access
 
 class UserRole(str, Enum):
     admin = "admin"
@@ -24,8 +27,36 @@ class User(SQLModel, table=True):
 
     owner_projects: list["Project"] = Relationship(back_populates="owner")
 
+    project_accesses: list["ProjectAccess"] = Relationship(
+        back_populates="user",
+        sa_relationship_kwargs={"foreign_keys": "ProjectAccess.user_id"}
+    )
+
+    granted_access: list["ProjectAccess"] = Relationship(
+        back_populates="granter",
+        sa_relationship_kwargs={"foreign_keys": "ProjectAccess.granted_by"}
+    )
+
+    created_documents: list["Document"] = Relationship(
+        back_populates="creator",
+        sa_relationship_kwargs={"foreign_keys": "Document.created_by"}
+    )
+    updated_documents: list["Document"] = Relationship(
+        back_populates="updater",
+        sa_relationship_kwargs={"foreign_keys": "Document.updated_by"}
+    )
+
+    document_versions: list["DocumentVersion"] = Relationship(
+        back_populates="creator"
+    )
+
+    audit_logs: list["AuditLog"] = Relationship(back_populates="user")
+
 
 if TYPE_CHECKING:
     from app.models.project import Project
-
+    from app.models.project_access import ProjectAccess
+    from app.models.document import Document
+    from app.models.document_version import DocumentVersion
+    from app.models.audit_log import AuditLog
 
