@@ -80,7 +80,7 @@ def get_current_user(
     if user_id is None:
         raise credentials_exception
     
-    session = get_session()
+    session = next(get_session())
     user = session.get(User, user_id)
 
     if user is None:
