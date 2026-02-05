@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.db.session import create_db_and_tables
 
-from app.routers import users
+from app.routers import users, auth
 
 
 
@@ -68,6 +68,7 @@ def main():
     setup_cors_middleware()
 
     app.include_router(users.router)
+    app.include_router(auth.router)
 
 
 main()
