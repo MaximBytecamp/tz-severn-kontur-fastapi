@@ -3,6 +3,8 @@ from typing import Generator
 
 from app.core.config import settings
 
+
+
 engine = create_engine(
     settings.DATABASE_URL,
     echo=settings.DEBUG, 
@@ -11,6 +13,12 @@ engine = create_engine(
 
 
 def create_db_and_tables():
+    import app.models.user
+    import app.models.project
+    import app.models.project_access
+    import app.models.document
+    import app.models.document_version
+    import app.models.audit_log
     SQLModel.metadata.create_all(engine)
 
 def get_session() -> Generator[Session, None, None]:
