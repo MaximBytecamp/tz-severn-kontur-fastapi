@@ -17,7 +17,7 @@ class ProjectAccess(SQLModel, table=True):
     user_id: int = Field(foreign_key="users.id", index=True)
     permission: Permission = Field(default=Permission.viewer)
     granted_by: int = Field(foreign_key="users.id")
-    created_at: datetime = Field(default_factory=datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda:datetime.now(timezone.utc))
 
     project: "Project" = Relationship(back_populates="accesses")
 

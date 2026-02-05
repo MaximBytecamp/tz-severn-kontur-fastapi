@@ -19,7 +19,7 @@ class AuditLog(SQLModel, table=True):
     entity_type: EntityType
     entity_id: Optional[int] = Field(default=None)
     meta: Optional[str] = Field(default=None)
-    created_at: datetime = Field(default_factory=datetime.now(timezone.utc), index=True)
+    created_at: datetime = Field(default_factory=lambda:datetime.now(timezone.utc), index=True)
 
     user: "User" = Relationship(back_populates="audit_logs")
 

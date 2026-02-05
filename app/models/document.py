@@ -1,10 +1,8 @@
-from contextlib import _BaseExitStack
-from datetime import datetime, datetitme, timezone 
-from turtle import back
-from typing import Optional, List, TYPE_CHECKING
+from datetime import datetime, timezone 
+
+from typing import Optional, TYPE_CHECKING
 from enum import Enum
 
-from sqlalchemy import table
 from sqlmodel import SQLModel, Field, Relationship
 
 class DocumentStatus(str, Enum):
@@ -23,8 +21,8 @@ class Document(SQLModel, table=True):
     status: DocumentStatus = Field(default=DocumentStatus.draft)
     created_by: int = Field(foreign_key="users.id")
     updated_by: Optional[int] = Field(default=None, foreign_key="users.id")
-    created_at: datetime = Field(default_factory=datetime.now(timezone.utc))
-    updated_at: datetime = Field(default_factory=datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda:datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda:datetime.now(timezone.utc))
 
 
     project: "Project" = Relationship(back_populates="documents")

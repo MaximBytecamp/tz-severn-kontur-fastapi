@@ -12,7 +12,7 @@ class DocumentVersion(SQLModel, table=True):
     version: int = Field(default=1)
     content_snapshot: str = Field(default="")
     created_by: int = Field(foreign_key="users.id")
-    created_at: datetime = Field(default_factory=datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda:datetime.now(timezone.utc))
 
 
     document: "Document" = Relationship(back_populates="versions")
