@@ -21,7 +21,7 @@ class User(SQLModel, table=True):
     password_hash: str = Field(max_length=255)
     role: UserRole = Field(default=UserRole.viewer)
     is_active: bool = Field(default=True)
-    created_at: datetime = Field(default_factory=datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda:datetime.now(timezone.utc))
 
     owner_projects: list["Project"] = Relationship(back_populates="owner")
 
