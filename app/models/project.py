@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List, TYPE_CHECKING
 
 from sqlalchemy import table
@@ -11,7 +11,7 @@ class Project(SQLModel, table=True):
     title: str = Field(max_length=120, min_length=3)
     description: Optional[str] = Field(default=None)
     owner_id: int = Field(foreign_key="users.id")
-
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     owner: "User" = Relationship(back_populates="owner_projects")
 
